@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>電子聯絡簿 - 6班級+全備份版</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        /* --- 基礎設定 --- */
+        body {
+            font-family: "Microsoft JhengHei", "微軟正黑體", Arial, sans-serif;
+            font-weight: bold;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+            padding-top: 140px; /* 上方預留空間 */
+        }
+
+        /* --- A4 容器 --- */
+        .page-container {
+            width: 250mm;
+            background: white;
+            padding: 25px 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            position: relative;
+            background-color: #ffffff;
+        }
+
+        /* --- 頂部區域 (班級 & 日期) --- */
+        .class-row {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 10px;
+            color: #0066cc;
+            font-size: 20px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            color: #0066cc;
+            font-size: 20px;
+        }
+
+        .stack-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        .stack-label .zh { font-size: 24px; margin-bottom: 2px; }
+        .stack-label .en { font-size: 14px; font-weight: normal; }
+
+        .class-row .stack-label, 
+        .date-title-group .stack-label { 
+            align-items: flex-start; 
+            margin-right: 15px;
+        }
+
+        .date-title-group { display: flex; align-items: flex-end; margin-right: 20px; }
+        
+        .date-inputs-group {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            flex-grow: 1;
+            padding-left: 20px;
+        }
+
+        .weekday-group { display: flex; align-items: flex-end; gap: 10px; }
+
+        /* --- 顯眼輸入框 --- */
+        .highlight-input {
+            border: none;
+            border-bottom: 3px solid #0066cc;
+            text-align: center;
+            background: transparent;
+            font-family: "Patrick Hand", "標楷體", "KaiTi", cursive;
+            font-size: 40px; 
+            font-weight: 900;
+            color: #000000;
+            padding: 0;
+            line-height: 1.2;
+            margin-bottom: 2px;
+            height: 50px; 
+        }
+
+        .input-month, .input-day { width: 80px; }
+        .input-weekday { width: 180px; text-align: left; padding-left: 10px;} 
+        .input-classname { width: 400px; text-align: left; padding-left: 10px; }
+
+        /* --- 表格樣式 --- */
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 3px solid #2d89ef;
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+            margin-top: 10px;
+            table-layout: fixed;
+        }
+
+        .main-table th, .main-table td {
+            border: 2px solid #2d89ef;
+            padding: 5px;
+            vertical-align: middle;
+        }
+
+        .section-header {
+            background-color: #dbeeff;
+            color: #0050a0;
+            text-align: center;
+            font-size: 24px;
+            padding: 10px !important;
+        }
+
+        .sub-header {
+            background-color: #dbeeff;
+            color: #0050a0;
+            font-size: 20px;
+            text-align: center;
+            width: 50%;
+        }
+
+        .label-cell {
+            background-color: #dbeeff;
+            color: #0050a0;
+            width: 18%;
+            text-align: center;
+            font-size: 19px;
+            white-space: normal;
+            line-height: 1.2;
+        }
+
+        .textbook-selector {
+            cursor: pointer;
+            padding: 5px 8px;
+            margin: 0 1px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            border: 3px solid transparent;
+            display: inline-block;
+            font-size: 18px;
+        }
+
+        .textbook-selector:hover { background-color: rgba(255, 255, 255, 0.5); }
+
+        .textbook-selector.active {
+            border: 3px solid #e60000;
+            color: #e60000;
+            font-weight: 900;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .input-cell {
+            background-color: white;
+            padding: 0 !important;
+            height: 65px; 
+            vertical-align: top; 
+            position: relative;
+        }
+
+        /* --- 輸入框設定 --- */
+        .table-input, .homework-area, .signature-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-family: "Patrick Hand", "標楷體", "KaiTi", cursive;
+            font-size: 34px; 
+            font-weight: 900;
+            color: #000000;
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        .table-input { 
+            height: 100%; 
+            padding: 0 10px;
+            display: flex;
+            align-items: center; 
+        }
+
+        .homework-area {
+            height: 240px;
+            resize: none;
+            padding: 0 10px;
+            line-height: 60px; 
+            background-image: repeating-linear-gradient(transparent, transparent 58px, #eee 59px, transparent 60px);
+            background-attachment: local;
+            padding-top: 5px; 
+        }
+
+        .signature-header-row td {
+            height: auto;
+            vertical-align: top;
+            padding: 8px;
+            font-size: 18px;
+            color: #0050a0;
+            background-color: #dbeeff;
+            text-align: center;
+        }
+        
+        .parent-note {
+            display: block;
+            font-size: 14px;
+            color: #cc0000;
+            margin-top: 5px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .signature-input {
+            height: 100px;
+            font-size: 34px;
+            text-align: center;
+            resize: none;
+            line-height: 48px;
+            padding-top: 5px;
+        }
+
+        /* --- 重點提醒區域 --- */
+        .important-notice {
+            margin-top: 15px;
+            border: 4px dashed #ff4444;
+            background-color: #fffbdd;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #d60000;
+        }
+
+        .important-notice h3 {
+            margin: 0 0 5px 0;
+            font-size: 22px;
+            font-weight: 900;
+            text-align: center;
+            border-bottom: 2px solid #ffcccc;
+            padding-bottom: 5px;
+        }
+
+        .notice-list {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .notice-list li {
+            font-size: 20px;
+            font-weight: 900;
+            margin: 5px 10px;
+        }
+
+        /* --- 工具列 --- */
+        .toolbar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .toolbar {
+            background: #333;
+            padding: 8px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .toolbar-secondary {
+            background: #444;
+            padding: 5px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            border-top: 1px solid #555;
+            flex-wrap: wrap;
+        }
+
+        .mode-group {
+            display: flex;
+            background: #555;
+            border-radius: 5px;
+            padding: 2px;
+            margin-right: 10px;
+        }
+
+        .mode-btn {
+            padding: 8px 15px;
+            border: none;
+            background: transparent;
+            color: #aaa;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: "Microsoft JhengHei", sans-serif;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: #ffc107;
+            color: #000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn {
+            padding: 6px 12px;
+            background: #666;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: "Microsoft JhengHei", sans-serif;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn:hover { background: #888; }
+        .btn-green { background: #28a745; }
+        .btn-green:hover { background: #218838; }
+        .btn-blue { background: #0056b3; }
+        .btn-blue:hover { background: #004494; }
+        .btn-red { background: #c00; }
+        .btn-red:hover { background: #a00; }
+        .btn-orange { background: #fd7e14; }
+        .btn-orange:hover { background: #e36a00; }
+        .btn-purple { background: #6f42c1; }
+        .btn-purple:hover { background: #59359a; }
+        .btn-purple-dark { background: #4a2c82; border: 2px solid #a885eb; }
+        .btn-purple-dark:hover { background: #3b2368; }
+        
+        /* 備份按鈕樣式 */
+        .btn-cyan { background: #17a2b8; }
+        .btn-cyan:hover { background: #138496; }
+
+        .btn:disabled { background: #999 !important; cursor: not-allowed; }
+        
+        /* 班級卡片樣式 */
+        .slot-card {
+            display: flex;
+            flex-direction: column;
+            background: #555;
+            padding: 4px;
+            border-radius: 5px;
+            margin: 0 2px;
+            width: 110px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .slot-card.active-slot {
+            border-color: #ffc107;
+            background: #666;
+            box-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
+        }
+
+        .slot-name-input {
+            width: 100%;
+            background: #333;
+            border: 1px solid #777;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 3px;
+            box-sizing: border-box;
+        }
+        
+        .slot-name-input:focus {
+            background: #000;
+            border-color: #ffc107;
+            outline: none;
+        }
+
+        .slot-btn {
+            width: 100%;
+            padding: 3px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            border-radius: 3px;
+            background: #777;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .slot-btn:hover { background: #888; }
+        .slot-card.active-slot .slot-btn {
+            background: #ffc107;
+            color: black;
+        }
+
+        .toolbar-label {
+            color: #ccc;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        /* 檔案上傳 input 隱藏 */
+        #file-input { display: none; }
+
+        @media print {
+            .toolbar-container { display: none; }
+            body { padding: 0; background: white; -webkit-print-color-adjust: exact; margin-top: 0; }
+            .page-container { box-shadow: none; width: 100%; padding: 0; margin: 0 auto; }
+        }
+
+        /* --- 截圖專用樣式 --- */
+        .snapshot-text-div {
+            font-family: "Patrick Hand", "標楷體", "KaiTi", cursive;
+            font-weight: 900;
+            color: #000000;
+            white-space: pre-wrap; 
+            overflow: visible; 
+            display: flex;
+            align-items: center; 
+        }
+        
+        .snapshot-date {
+            font-size: 40px;
+            border-bottom: 3px solid #0066cc;
+            text-align: center;
+            justify-content: center;
+            height: 50px;
+            line-height: 1.2;
+            padding-top: 5px; 
+        }
+
+        .snapshot-table-input {
+            font-size: 34px;
+            padding: 0 10px;
+            height: 100%;
+            align-items: center;
+            line-height: 1.2;
+        }
+
+        .snapshot-homework {
+            font-size: 34px;
+            line-height: 60px; 
+            padding: 5px 10px;
+            display: block; 
+            min-height: 240px;
+        }
+
+        .snapshot-signature {
+            font-size: 34px;
+            text-align: center;
+            justify-content: center;
+            padding-top: 10px;
+            line-height: 1.4;
+            display: block; 
+        }
+
+        /* 隱藏元素用 */
+        .hidden { display: none !important; }
+
+    </style>
+</head>
+<body>
+
+    <div class="toolbar-container">
+        <div class="toolbar">
+            <div class="mode-group">
+                <button class="mode-btn active" id="btn-mode-ap" onclick="setMode('AP')">AP</button>
+                <button class="mode-btn" id="btn-mode-kindy" onclick="setMode('KINDY')">幼兒</button>
+            </div>
+            
+            <button class="btn btn-purple-dark" onclick="saveToCurrentSlot()" id="btn-main-save" title="儲存到目前選取的班級">
+                💾 儲存當前班級
+            </button>
+            
+            <div style="width: 10px;"></div>
+
+            <button class="btn" onclick="fillDate()">📅 今天</button>
+            <button class="btn btn-green" onclick="copyText()">📋 複製</button>
+            <button class="btn btn-blue" onclick="generateImage(this)">📷 截圖</button>
+            <button class="btn btn-red" onclick="clearAll()">🗑️ 清空</button>
+            <button class="btn btn-orange" id="btn-undo" onclick="undoClear()" style="display:none;">↩️ 復原</button>
+            
+            <div style="width: 10px; border-right: 1px solid #555; height: 30px;"></div>
+            
+            <button class="btn btn-cyan" onclick="exportData()">📥 備份</button>
+            <button class="btn btn-cyan" onclick="document.getElementById('file-input').click()">📤 還原</button>
+            <input type="file" id="file-input" accept=".json" onchange="importData(this)">
+        </div>
+        
+        <div class="toolbar-secondary" id="slots-container">
+            </div>
+    </div>
+
+    <div class="page-container" id="capture-area">
+        
+        <div class="class-row">
+            <div class="stack-label">
+                <span class="zh">班級 :</span>
+                <span class="en">(Class)</span>
+            </div>
+            <input type="text" class="highlight-input input-classname" id="class-name">
+        </div>
+
+        <div class="header-row">
+            <div class="date-title-group">
+                <div class="stack-label">
+                    <span class="zh">日期 :</span>
+                    <span class="en">(Date)</span>
+                </div>
+            </div>
+            <div class="date-inputs-group">
+                <input type="text" class="highlight-input input-month" id="month">
+                <div class="stack-label">
+                    <span class="zh">月</span>
+                    <span class="en">(Month)</span>
+                </div>
+                <div style="width: 20px;"></div>
+                <input type="text" class="highlight-input input-day" id="day">
+                <div class="stack-label">
+                    <span class="zh">日</span>
+                    <span class="en">(Day)</span>
+                </div>
+            </div>
+            <div class="weekday-group">
+                <div class="stack-label">
+                    <span class="zh">星期 :</span>
+                    <span class="en">(Day of the Week)</span>
+                </div>
+                <input type="text" class="highlight-input input-weekday" id="weekday">
+            </div>
+        </div>
+
+        <table class="main-table">
+            <tr>
+                <td colspan="4" class="section-header">Today's Lesson 今日課程</td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">
+                    <div id="label-book-ap">
+                        <span class="textbook-selector" id="sel-bj" onclick="toggleTextbook('sel-bj')">Big Jump</span>
+                        /
+                        <span class="textbook-selector" id="sel-clil" onclick="toggleTextbook('sel-clil')">CLIL</span>
+                    </div>
+                    <div id="label-book-kindy" class="hidden">
+                        <span class="textbook-selector" id="sel-sb" onclick="toggleTextbook('sel-sb')">Student Book</span>
+                    </div>
+                </td>
+                <td class="input-cell"><input type="text" class="table-input save-target" data-id="bj"></td>
+                
+                <td class="label-cell">
+                    <div id="group-ph-ap">
+                        <span class="textbook-selector" id="sel-ph" onclick="toggleTextbook('sel-ph')">Phonics</span>
+                        /
+                        <span class="textbook-selector" id="sel-br" onclick="toggleTextbook('sel-br')">Better Reader</span>
+                    </div>
+                    <div id="group-ph-kindy" class="hidden">
+                        Stem/CLIL
+                    </div>
+                </td>
+                <td class="input-cell"><input type="text" class="table-input save-target" data-id="ph"></td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">
+                    <div id="label-wr-container">
+                        <span id="label-wr">Writing</span>
+                    </div>
+                </td>
+                <td class="input-cell"><input type="text" class="table-input save-target" data-id="wr"></td>
+                <td class="label-cell">Other</td>
+                <td class="input-cell"><input type="text" class="table-input save-target" data-id="ot"></td>
+            </tr>
+
+            <tr>
+                <td colspan="2" class="sub-header">Homework 回家作業</td>
+                <td colspan="2" class="sub-header" id="header-quiz">Quiz/ Test for Next Time 下次考試</td>
+            </tr>
+
+            <tr>
+                <td colspan="2" class="input-cell" style="vertical-align: top;">
+                    <textarea class="homework-area save-target" data-id="hw" placeholder="Input here..."></textarea>
+                </td>
+                <td colspan="2" class="input-cell" style="vertical-align: top;">
+                    <textarea class="homework-area save-target" data-id="qz" placeholder="Input here..."></textarea>
+                </td>
+            </tr>
+
+            <tr class="signature-header-row">
+                <td colspan="2">
+                    <div class="signature-text">Teacher's Signature 老師簽名</div>
+                </td>
+                <td colspan="2">
+                    <div class="signature-text">
+                        Parent's Signature 家長簽名<br>
+                        <span class="parent-note">寶貝完成複習後，請在聯絡簿相對應的日期上簽名。謝謝。</span>
+                    </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td colspan="2" class="input-cell">
+                    <textarea class="signature-input save-target" data-id="sign_teacher" placeholder=""></textarea>
+                </td>
+                <td colspan="2" class="input-cell">
+                    <textarea class="signature-input save-target" data-id="sign_parent" placeholder=""></textarea>
+                </td>
+            </tr>
+        </table>
+
+        <div class="important-notice">
+            <h3 id="footer-notice-title">請家長提醒寶貝要利用點讀筆做複習哦！</h3>
+            <ul class="notice-list" id="footer-list">
+                </ul>
+        </div>
+    </div>
+
+    <script>
+        // --- 狀態管理 ---
+        let currentMode = 'AP'; // 'AP' or 'KINDY'
+        const SELECTOR_IDS = ['sel-bj', 'sel-clil', 'sel-sb', 'sel-ph', 'sel-br'];
+        
+        // 新增：班級管理
+        let activeSlotId = 1; // 預設當前班級 ID
+        const TOTAL_SLOTS = 6;
+
+        // --- 儲存與邏輯 ---
+        const inputs = document.querySelectorAll('input, textarea');
+
+        window.addEventListener('load', () => {
+            // 初始化班級工具列
+            initSlotToolbar();
+
+            // 還原輸入框內容 (預設載入最後一次操作的內容，或保持上次狀態)
+            inputs.forEach(input => {
+                const key = input.id || input.getAttribute('data-id');
+                if (key) {
+                    const savedValue = localStorage.getItem('contact_book_v2_' + key);
+                    if (savedValue) input.value = savedValue;
+                }
+            });
+            
+            // 還原書本選擇
+            SELECTOR_IDS.forEach(id => restoreTextbookSelection(id));
+
+            // 還原模式，預設AP
+            const savedMode = localStorage.getItem('contact_book_mode');
+            if(savedMode) {
+                setMode(savedMode);
+            } else {
+                setMode('AP'); // init
+            }
+
+            // 讀取上次最後操作的 Slot ID
+            const lastActive = localStorage.getItem('cb_last_active_slot');
+            if(lastActive) {
+                activeSlotId = parseInt(lastActive);
+                updateSlotVisuals();
+            }
+        });
+
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                const key = input.id || input.getAttribute('data-id');
+                if (key) {
+                    localStorage.setItem('contact_book_v2_' + key, input.value);
+                }
+            });
+        });
+
+        function toggleTextbook(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('active');
+            const isSelected = el.classList.contains('active');
+            localStorage.setItem('contact_book_v2_select_' + id, isSelected);
+        }
+
+        function restoreTextbookSelection(id) {
+            const savedState = localStorage.getItem('contact_book_v2_select_' + id);
+            if (savedState === 'true') {
+                const el = document.getElementById(id);
+                if(el) el.classList.add('active');
+            } else {
+                const el = document.getElementById(id);
+                if(el) el.classList.remove('active');
+            }
+        }
+
+        // --- 模式切換邏輯 ---
+        function setMode(mode) {
+            currentMode = mode;
+            localStorage.setItem('contact_book_mode', mode);
+
+            // 更新按鈕樣式
+            document.getElementById('btn-mode-ap').classList.remove('active');
+            document.getElementById('btn-mode-kindy').classList.remove('active');
+            if (mode === 'AP') {
+                document.getElementById('btn-mode-ap').classList.add('active');
+                renderAPMode();
+            } else {
+                document.getElementById('btn-mode-kindy').classList.add('active');
+                renderKindyMode();
+            }
+        }
+
+        function renderAPMode() {
+            document.getElementById('label-book-ap').classList.remove('hidden');
+            document.getElementById('label-book-kindy').classList.add('hidden');
+            document.getElementById('group-ph-ap').classList.remove('hidden');
+            document.getElementById('group-ph-kindy').classList.add('hidden');
+            document.getElementById('label-wr').innerText = "Writing";
+            document.getElementById('header-quiz').innerText = "Quiz/ Test for Next Time 下次考試";
+            document.getElementById('footer-notice-title').innerText = "請家長提醒寶貝要利用點讀筆做複習哦！";
+            document.getElementById('footer-list').innerHTML = `
+                <li>★要會單字拼字</li>
+                <li>★要會書寫句子</li>
+                <li>★要會回答問題</li>
+                <li>★要會讀句子</li>
+            `;
+        }
+
+        function renderKindyMode() {
+            document.getElementById('label-book-ap').classList.add('hidden');
+            document.getElementById('label-book-kindy').classList.remove('hidden');
+            document.getElementById('group-ph-ap').classList.add('hidden');
+            document.getElementById('group-ph-kindy').classList.remove('hidden');
+            document.getElementById('label-wr').innerText = "Activity Book";
+            document.getElementById('header-quiz').innerText = "Focus Areas 需加強範圍";
+            document.getElementById('footer-notice-title').innerText = "請家長協助孩子在家中，用點讀筆輕鬆聽、跟著玩";
+            document.getElementById('footer-list').innerHTML = `
+                <li>★多聽</li>
+                <li>★會跟讀</li>
+                <li>★敢開口說</li>
+                <li>★建立熟悉感</li>
+            `;
+        }
+
+        function fillDate() {
+            const now = new Date();
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const m = document.getElementById('month');
+            const d = document.getElementById('day');
+            const w = document.getElementById('weekday');
+            m.value = now.getMonth() + 1;
+            d.value = now.getDate();
+            w.value = days[now.getDay()];
+            m.dispatchEvent(new Event('input'));
+            d.dispatchEvent(new Event('input'));
+            w.dispatchEvent(new Event('input'));
+        }
+
+        // --- 全新班級管理邏輯 ---
+        function initSlotToolbar() {
+            const container = document.getElementById('slots-container');
+            container.innerHTML = ''; 
+
+            for (let i = 1; i <= TOTAL_SLOTS; i++) {
+                const savedName = localStorage.getItem(`cb_slot_name_${i}`) || `班級 ${i}`;
+                
+                const card = document.createElement('div');
+                card.className = 'slot-card';
+                card.id = `slot-card-${i}`;
+                
+                const inputName = document.createElement('input');
+                inputName.type = 'text';
+                inputName.className = 'slot-name-input';
+                inputName.value = savedName;
+                inputName.placeholder = '輸入班級名';
+                inputName.oninput = (e) => saveSlotName(i, e.target.value);
+
+                const btnLoad = document.createElement('button');
+                btnLoad.className = 'slot-btn';
+                btnLoad.innerText = `📂 開啟`;
+                btnLoad.onclick = () => loadAndActivateSlot(i);
+
+                card.appendChild(inputName);
+                card.appendChild(btnLoad);
+                container.appendChild(card);
+            }
+            updateSlotVisuals();
+        }
+
+        function saveSlotName(id, name) {
+            localStorage.setItem(`cb_slot_name_${id}`, name);
+        }
+
+        function updateSlotVisuals() {
+            for (let i = 1; i <= TOTAL_SLOTS; i++) {
+                const card = document.getElementById(`slot-card-${i}`);
+                if (i === activeSlotId) {
+                    card.classList.add('active-slot');
+                    const currentName = document.querySelector(`#slot-card-${i} .slot-name-input`).value;
+                    document.getElementById('btn-main-save').innerText = `💾 儲存 (目前: ${currentName})`;
+                } else {
+                    card.classList.remove('active-slot');
+                }
+            }
+        }
+
+        function getPageData() {
+            const data = {
+                mode: currentMode,
+                inputs: {},
+                selectors: {}
+            };
+            inputs.forEach(input => {
+                const key = input.id || input.getAttribute('data-id');
+                if (key) data.inputs[key] = input.value;
+            });
+            SELECTOR_IDS.forEach(id => {
+                const el = document.getElementById(id);
+                data.selectors[id] = el ? el.classList.contains('active') : false;
+            });
+            return data;
+        }
+
+        function setPageData(data) {
+            setMode(data.mode);
+            for (const [key, value] of Object.entries(data.inputs)) {
+                const input = document.getElementById(key) || document.querySelector(`[data-id="${key}"]`);
+                if (input) {
+                    input.value = value;
+                    localStorage.setItem('contact_book_v2_' + key, value);
+                }
+            }
+            for (const [id, isActive] of Object.entries(data.selectors)) {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (isActive) el.classList.add('active');
+                    else el.classList.remove('active');
+                    localStorage.setItem('contact_book_v2_select_' + id, isActive);
+                }
+            }
+        }
+
+        function loadAndActivateSlot(slotId) {
+            const json = localStorage.getItem('cb_slot_' + slotId);
+            
+            if (json) {
+                const data = JSON.parse(json);
+                setPageData(data);
+            } else {
+                if(confirm(`這是空的儲存格，要清空目前畫面並切換到這個班級嗎？`)) {
+                    clearScreenOnly(); 
+                } else {
+                    return; 
+                }
+            }
+
+            activeSlotId = slotId;
+            localStorage.setItem('cb_last_active_slot', slotId);
+            
+            const slotName = document.querySelector(`#slot-card-${slotId} .slot-name-input`).value;
+            if(slotName) {
+                const classInput = document.getElementById('class-name');
+                classInput.value = slotName;
+                classInput.dispatchEvent(new Event('input'));
+            }
+
+            updateSlotVisuals();
+        }
+
+        function saveToCurrentSlot() {
+            if (!activeSlotId) return;
+
+            const data = getPageData();
+            const now = new Date();
+            const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+            data.timestamp = timeStr;
+            data.className = document.getElementById('class-name').value || '未命名';
+
+            localStorage.setItem('cb_slot_' + activeSlotId, JSON.stringify(data));
+            
+            if (data.className && data.className !== '未命名') {
+                const input = document.querySelector(`#slot-card-${activeSlotId} .slot-name-input`);
+                if(input) {
+                    input.value = data.className;
+                    saveSlotName(activeSlotId, data.className);
+                }
+            }
+
+            alert(`✅ 已儲存至「班級 ${activeSlotId}」！\n時間: ${timeStr}`);
+            updateSlotVisuals(); 
+        }
+        
+        function clearScreenOnly() {
+             inputs.forEach(input => {
+                input.value = '';
+                const key = input.id || input.getAttribute('data-id');
+                if (key) localStorage.removeItem('contact_book_v2_' + key);
+            });
+            SELECTOR_IDS.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.remove('active');
+                localStorage.removeItem('contact_book_v2_select_' + id);
+            });
+        }
+
+        function clearAll() {
+            if(confirm('確定要清空目前畫面的內容嗎？(已儲存的班級資料不會消失)')) {
+                const backupData = getPageData();
+                localStorage.setItem('cb_undo_slot', JSON.stringify(backupData));
+                document.getElementById('btn-undo').style.display = 'inline-block'; 
+                clearScreenOnly();
+            }
+        }
+
+        function undoClear() {
+            const json = localStorage.getItem('cb_undo_slot');
+            if(json) {
+                const data = JSON.parse(json);
+                setPageData(data);
+                document.getElementById('btn-undo').style.display = 'none'; 
+                alert('✅ 已復原剛才清空的內容！');
+            }
+        }
+
+        // --- 備份與還原功能 (Full Backup & Restore) ---
+        function exportData() {
+            if(!confirm('確定要下載全網站備份檔案嗎？\n(包含所有班級存檔、設定與當前畫面)')) return;
+
+            const backup = {};
+            // 遍歷所有 localStorage 找出相關資料
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                // 只備份跟本工具有關的 key，避免備份到同個網域下其他網站的資料
+                if (key.startsWith('contact_book') || key.startsWith('cb_')) {
+                    backup[key] = localStorage.getItem(key);
+                }
+            }
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
+            const downloadAnchorNode = document.createElement('a');
+            const dateStr = new Date().toLocaleDateString('zh-TW').replace(/\//g, '-');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", `聯絡簿全備份_${dateStr}.json`);
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function importData(inputElement) {
+            const file = inputElement.files[0];
+            if (!file) return;
+
+            if(!confirm('⚠️ 警告：還原備份將會「覆蓋」目前瀏覽器內所有的班級紀錄與設定！\n確定要繼續嗎？')) {
+                inputElement.value = ''; // 清空選擇
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const backup = JSON.parse(e.target.result);
+                    
+                    // 1. 清除舊有的相關資料
+                    // 為了安全，我們只清除本工具相關的 key，不影響同網域其他網站
+                    const keysToRemove = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key.startsWith('contact_book') || key.startsWith('cb_')) {
+                            keysToRemove.push(key);
+                        }
+                    }
+                    keysToRemove.forEach(k => localStorage.removeItem(k));
+
+                    // 2. 寫入備份資料
+                    for (const [key, value] of Object.entries(backup)) {
+                        localStorage.setItem(key, value);
+                    }
+
+                    alert('✅ 還原成功！頁面將重新整理...');
+                    location.reload(); // 重新整理以載入新資料
+
+                } catch (err) {
+                    console.error(err);
+                    alert('❌ 還原失敗：檔案格式錯誤或損毀。');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+
+        // --- 匯出文字訊息 ---
+        function copyText() {
+            const className = document.getElementById('class-name').value || '';
+            const m = document.getElementById('month').value || '';
+            const d = document.getElementById('day').value || '';
+            const w = document.getElementById('weekday').value || '';
+            
+            let bookTitle1 = '';
+            if (currentMode === 'AP') {
+                const isBj = document.getElementById('sel-bj').classList.contains('active');
+                const isClil = document.getElementById('sel-clil').classList.contains('active');
+                if(isBj) bookTitle1 += 'Big Jump';
+                if(isBj && isClil) bookTitle1 += ' / ';
+                if(isClil) bookTitle1 += 'CLIL';
+            } else {
+                const isSb = document.getElementById('sel-sb').classList.contains('active');
+                if(isSb) bookTitle1 = 'Student Book';
+                const hasContent = document.querySelector('input[data-id="bj"]').value.trim() !== '';
+                if(!bookTitle1 && hasContent) bookTitle1 = 'Student Book'; 
+            }
+
+            let bookTitle2 = '';
+            if (currentMode === 'AP') {
+                const isPh = document.getElementById('sel-ph').classList.contains('active');
+                const isBr = document.getElementById('sel-br').classList.contains('active');
+                if(isPh) bookTitle2 += 'Phonics';
+                if(isPh && isBr) bookTitle2 += ' / ';
+                if(isBr) bookTitle2 += 'Better Reader';
+                if(!bookTitle2) bookTitle2 = 'Phonics/Better Reader';
+            } else {
+                bookTitle2 = 'Stem/CLIL';
+            }
+
+            const labelWr = document.getElementById('label-wr').innerText;
+            const bjVal = document.querySelector('input[data-id="bj"]').value;
+            const phVal = document.querySelector('input[data-id="ph"]').value;
+            const wrVal = document.querySelector('input[data-id="wr"]').value;
+            const otVal = document.querySelector('input[data-id="ot"]').value;
+            const hwVal = document.querySelector('textarea[data-id="hw"]').value;
+            const qzVal = document.querySelector('textarea[data-id="qz"]').value;
+
+            let text = `【英文班課程進度通知】\n`;
+            if (className) text += `🏫 班級：${className}\n`;
+            text += `📅 日期：${m}月${d}日 (${w})\n\n`;
+
+            text += `📖 今日課程 Today's Lesson\n`;
+            
+            let listIndex = 1;
+            if (bookTitle1 || bjVal) text += `${listIndex++}. ${bookTitle1}：${bjVal}\n`;
+            if (phVal) text += `${listIndex++}. ${bookTitle2}：${phVal}\n`;
+            if (wrVal) text += `${listIndex++}. ${labelWr}：${wrVal}\n`;
+            if (otVal) text += `${listIndex++}. Other：${otVal}\n`;
+            
+            text += `\n🏠 回家作業 Homework\n`;
+            text += hwVal ? `${hwVal}\n` : `(無)\n`;
+
+            if (currentMode === 'AP') {
+                text += `\n📝 下次考試 Quiz\n`;
+            } else {
+                text += `\n🎯 需加強範圍 Focus Areas\n`;
+            }
+            text += qzVal ? `${qzVal}\n` : `(無)\n`;
+
+            text += `\n🔔 老師的小叮嚀：\n`;
+            text += `${document.getElementById('footer-notice-title').innerText}\n`;
+            document.querySelectorAll('#footer-list li').forEach(item => {
+                text += `${item.innerText}\n`;
+            });
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ 內容已複製！');
+            }).catch(err => {
+                console.error('無法複製', err);
+                alert('複製失敗，請手動選取文字。');
+            });
+        }
+
+        // --- 截圖生成圖片 ---
+        function generateImage(btnElement) {
+            const originalText = btnElement.innerText;
+            btnElement.innerText = '⏳ 處理中...';
+            btnElement.disabled = true;
+
+            document.fonts.ready.then(() => {
+                const source = document.getElementById('capture-area');
+                const clone = source.cloneNode(true);
+                
+                clone.style.position = 'absolute';
+                clone.style.top = '-9999px';
+                clone.style.left = '-9999px';
+                clone.style.width = '250mm'; 
+                clone.style.backgroundColor = '#ffffff';
+                
+                const inputs = clone.querySelectorAll('input, textarea');
+                const originalInputs = source.querySelectorAll('input, textarea');
+
+                inputs.forEach((input, index) => {
+                    const originalInput = originalInputs[index];
+                    const val = originalInput.value;
+                    const div = document.createElement('div');
+                    
+                    div.innerText = val;
+                    div.className = 'snapshot-text-div'; 
+
+                    if (originalInput.classList.contains('input-month') || originalInput.classList.contains('input-day')) {
+                        div.classList.add('snapshot-date');
+                        div.style.width = '80px';
+                    } else if (originalInput.classList.contains('input-weekday')) {
+                        div.classList.add('snapshot-date');
+                        div.style.textAlign = 'left';
+                        div.style.paddingLeft = '10px';
+                        div.style.width = '180px';
+                    } else if (originalInput.classList.contains('input-classname')) {
+                        div.classList.add('snapshot-date');
+                        div.style.textAlign = 'left';
+                        div.style.paddingLeft = '10px';
+                        div.style.width = '400px';
+                    } else if (originalInput.classList.contains('table-input')) {
+                        div.classList.add('snapshot-table-input');
+                    } else if (originalInput.classList.contains('homework-area')) {
+                        div.classList.add('snapshot-homework');
+                    } else if (originalInput.classList.contains('signature-input')) {
+                        div.classList.add('snapshot-signature');
+                    }
+
+                    input.parentNode.replaceChild(div, input);
+                });
+
+                document.body.appendChild(clone);
+
+                html2canvas(clone, {
+                    scale: 2, 
+                    useCORS: true,
+                    backgroundColor: "#ffffff",
+                    height: clone.scrollHeight + 20, 
+                    windowHeight: clone.scrollHeight + 50
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    const dateStr = new Date().toLocaleDateString('zh-TW').replace(/\//g, '-');
+                    const prefix = currentMode === 'AP' ? '聯絡簿_AP_' : '聯絡簿_幼兒_';
+                    link.download = `${prefix}${dateStr}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                    link.remove();
+                    document.body.removeChild(clone);
+                    btnElement.innerText = originalText;
+                    btnElement.disabled = false;
+                }).catch(err => {
+                    console.error(err);
+                    alert('發生錯誤：' + err);
+                    if(document.body.contains(clone)) document.body.removeChild(clone);
+                    btnElement.innerText = originalText;
+                    btnElement.disabled = false;
+                });
+            });
+        }
+    </script>
+</body>
+</html>
