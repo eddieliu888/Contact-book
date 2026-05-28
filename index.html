@@ -19,39 +19,42 @@
             background-color: #f4f4f4;
             display: flex;
             justify-content: center;
-            padding: 20px;
+            padding: 4px;
             margin: 0;
-            padding-top: 140px; /* 上方預留空間 */
+            padding-top: 56px; /* 單列工具列預留空間 */
+            overflow: hidden;
         }
 
         /* --- A4 容器 --- */
         .page-container {
-            width: 250mm;
+            width: min(1460px, 99.2vw);
+            height: calc(100vh - 60px);
             background: white;
-            padding: 25px 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 10px 18px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.18);
             border-radius: 10px;
             position: relative;
             background-color: #ffffff;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         /* --- 頂部區域 (班級 & 日期) --- */
-        .class-row {
-            display: flex;
-            align-items: flex-end;
-            margin-bottom: 10px;
+        .compact-info-row {
+            display: grid;
+            grid-template-columns: 1.6fr 0.72fr 0.72fr 1.18fr;
+            gap: 16px;
+            align-items: end;
             color: #0066cc;
-            font-size: 20px;
+            margin-bottom: 8px;
         }
 
-        .header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 20px;
-            padding-bottom: 5px;
-            color: #0066cc;
-            font-size: 20px;
+        .compact-field {
+            display: grid;
+            grid-template-columns: 70px 1fr;
+            gap: 8px;
+            align-items: end;
+            min-width: 0;
         }
 
         .stack-label {
@@ -62,8 +65,8 @@
             white-space: nowrap;
         }
 
-        .stack-label .zh { font-size: 24px; margin-bottom: 2px; }
-        .stack-label .en { font-size: 14px; font-weight: normal; }
+        .stack-label .zh { font-size: 24px; margin-bottom: 0; }
+        .stack-label .en { font-size: 15px; font-weight: normal; }
 
         .class-row .stack-label, 
         .date-title-group .stack-label { 
@@ -90,33 +93,34 @@
             text-align: center;
             background: transparent;
             font-family: "Patrick Hand", "標楷體", "KaiTi", cursive;
-            font-size: 40px; 
+            font-size: 42px; 
             font-weight: 900;
             color: #000000;
-            padding: 0;
-            line-height: 1.2;
-            margin-bottom: 2px;
-            height: 50px; 
+            padding: 0 4px;
+            line-height: 1.15;
+            height: 44px; 
+            min-width: 0;
+            box-sizing: border-box;
         }
 
-        .input-month, .input-day { width: 80px; }
-        .input-weekday { width: 180px; text-align: left; padding-left: 10px;} 
-        .input-classname { width: 400px; text-align: left; padding-left: 10px; }
+        .input-month, .input-day { width: 100%; }
+        .input-weekday { width: 100%; text-align: left; padding-left: 6px;} 
+        .input-classname { width: 100%; text-align: left; padding-left: 6px; }
 
         /* --- 表格樣式 --- */
         .main-table {
             width: 100%;
             border-collapse: collapse;
             border: 3px solid #2d89ef;
-            border-radius: 15px 15px 0 0;
+            border-radius: 12px 12px 0 0;
             overflow: hidden;
-            margin-top: 10px;
+            margin-top: 2px;
             table-layout: fixed;
         }
 
         .main-table th, .main-table td {
             border: 2px solid #2d89ef;
-            padding: 5px;
+            padding: 3px;
             vertical-align: middle;
         }
 
@@ -124,14 +128,14 @@
             background-color: #dbeeff;
             color: #0050a0;
             text-align: center;
-            font-size: 24px;
-            padding: 10px !important;
+            font-size: 30px;
+            padding: 8px !important;
         }
 
         .sub-header {
             background-color: #dbeeff;
             color: #0050a0;
-            font-size: 20px;
+            font-size: 32px;
             text-align: center;
             width: 50%;
         }
@@ -141,20 +145,20 @@
             color: #0050a0;
             width: 18%;
             text-align: center;
-            font-size: 19px;
+            font-size: 26px;
             white-space: normal;
             line-height: 1.2;
         }
 
         .textbook-selector {
             cursor: pointer;
-            padding: 5px 8px;
+            padding: 3px 6px;
             margin: 0 1px;
-            border-radius: 12px;
+            border-radius: 9px;
             transition: all 0.2s;
             border: 3px solid transparent;
             display: inline-block;
-            font-size: 18px;
+            font-size: 24px;
         }
 
         .textbook-selector:hover { background-color: rgba(255, 255, 255, 0.5); }
@@ -170,7 +174,7 @@
         .input-cell {
             background-color: white;
             padding: 0 !important;
-            height: 65px; 
+            height: 68px; 
             vertical-align: top; 
             position: relative;
         }
@@ -181,7 +185,7 @@
             border: none;
             outline: none;
             font-family: "Patrick Hand", "標楷體", "KaiTi", cursive;
-            font-size: 34px; 
+            font-size: 42px; 
             font-weight: 900;
             color: #000000;
             box-sizing: border-box;
@@ -196,20 +200,20 @@
         }
 
         .homework-area {
-            height: 240px;
+            height: 168px;
             resize: none;
-            padding: 0 10px;
-            line-height: 60px; 
-            background-image: repeating-linear-gradient(transparent, transparent 58px, #eee 59px, transparent 60px);
+            padding: 2px 8px;
+            line-height: 52px; 
+            background-image: repeating-linear-gradient(transparent, transparent 50px, #eee 51px, transparent 52px);
             background-attachment: local;
-            padding-top: 5px; 
+            padding-top: 2px; 
         }
 
         .signature-header-row td {
             height: auto;
             vertical-align: top;
             padding: 8px;
-            font-size: 18px;
+            font-size: 26px;
             color: #0050a0;
             background-color: #dbeeff;
             text-align: center;
@@ -217,35 +221,35 @@
         
         .parent-note {
             display: block;
-            font-size: 14px;
+            font-size: 18px;
             color: #cc0000;
-            margin-top: 5px;
+            margin-top: 2px;
             font-weight: bold;
             line-height: 1.4;
         }
 
         .signature-input {
-            height: 100px;
-            font-size: 34px;
+            height: 96px;
+            font-size: 38px;
             text-align: center;
             resize: none;
-            line-height: 48px;
+            line-height: 80px;
             padding-top: 5px;
         }
 
         /* --- 重點提醒區域 --- */
         .important-notice {
-            margin-top: 15px;
-            border: 4px dashed #ff4444;
+            margin-top: 6px;
+            border: 3px dashed #ff4444;
             background-color: #fffbdd;
-            padding: 10px 20px;
+            padding: 3px 6px;
             border-radius: 10px;
             color: #d60000;
         }
 
         .important-notice h3 {
-            margin: 0 0 5px 0;
-            font-size: 22px;
+            margin: 0 0 2px 0;
+            font-size: 36px;
             font-weight: 900;
             text-align: center;
             border-bottom: 2px solid #ffcccc;
@@ -262,9 +266,9 @@
         }
 
         .notice-list li {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 900;
-            margin: 5px 10px;
+            margin: 2px 8px;
         }
 
         /* --- 工具列 --- */
@@ -281,7 +285,7 @@
 
         .toolbar {
             background: #333;
-            padding: 8px 20px;
+            padding: 4px 10px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -291,7 +295,7 @@
         
         .toolbar-secondary {
             background: #444;
-            padding: 5px 10px;
+            padding: 3px 6px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -309,7 +313,7 @@
         }
 
         .mode-btn {
-            padding: 8px 15px;
+            padding: 5px 9px;
             border: none;
             background: transparent;
             color: #aaa;
@@ -327,7 +331,7 @@
         }
 
         .btn {
-            padding: 6px 12px;
+            padding: 6px 10px;
             background: #666;
             color: white;
             border: none;
@@ -335,7 +339,7 @@
             cursor: pointer;
             font-weight: bold;
             font-family: "Microsoft JhengHei", sans-serif;
-            font-size: 15px;
+            font-size: 24px;
             display: flex;
             align-items: center;
             gap: 5px;
@@ -365,10 +369,10 @@
             display: flex;
             flex-direction: column;
             background: #555;
-            padding: 4px;
+            padding: 2px;
             border-radius: 5px;
-            margin: 0 2px;
-            width: 110px;
+            margin: 0 1px;
+            width: 82px;
             border: 2px solid transparent;
             transition: all 0.2s;
         }
@@ -384,11 +388,11 @@
             background: #333;
             border: 1px solid #777;
             color: white;
-            padding: 2px 5px;
+            padding: 3px 6px;
             border-radius: 3px;
-            font-size: 13px;
+            font-size: 11px;
             text-align: center;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             box-sizing: border-box;
         }
         
@@ -400,8 +404,8 @@
 
         .slot-btn {
             width: 100%;
-            padding: 3px;
-            font-size: 12px;
+            padding: 2px;
+            font-size: 11px;
             cursor: pointer;
             border: none;
             border-radius: 3px;
@@ -424,6 +428,95 @@
 
         /* 檔案上傳 input 隱藏 */
         #file-input { display: none; }
+
+
+
+        .need-improve-area {
+            height: 118px;
+            resize: none;
+            padding: 3px 10px;
+            line-height: 52px;
+            background-image: repeating-linear-gradient(transparent, transparent 50px, #eee 51px, transparent 52px);
+            background-attachment: local;
+            padding-top: 2px;
+        }
+
+        .review-date-wrap {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            padding: 10px;
+            height: 96px;
+            box-sizing: border-box;
+        }
+
+        .review-date-input {
+            width: 100%;
+            border: 2px solid #2d89ef;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+            font-family: "Patrick Hand", "標楷體", "KaiTi", cursive;
+            font-size: 36px;
+            font-weight: 900;
+            color: #000;
+            box-sizing: border-box;
+        }
+
+        .compact-hide { display: none !important; }
+
+
+
+        @media (max-height: 850px) {
+            .homework-area { height: 150px; font-size: 38px; line-height: 48px; background-image: repeating-linear-gradient(transparent, transparent 46px, #eee 47px, transparent 48px); }
+            .need-improve-area { height: 106px; font-size: 38px; line-height: 48px; background-image: repeating-linear-gradient(transparent, transparent 46px, #eee 47px, transparent 48px); }
+            .input-cell { height: 62px; }
+            .signature-input, .review-date-wrap { height: 88px; }
+            .review-date-input { font-size: 34px; }
+        }
+
+
+
+        /* --- 筆電全覽修正版：避免最下方簽名與日期被截掉 --- */
+        @media (max-height: 950px) {
+            body { padding-top: 56px; padding-bottom: 2px; }
+            .page-container { height: calc(100vh - 66px); padding: 8px 18px; }
+            .compact-info-row { margin-bottom: 6px; }
+            .stack-label .zh { font-size: 22px; }
+            .stack-label .en { font-size: 13px; }
+            .highlight-input { height: 40px; font-size: 38px; }
+            .section-header { font-size: 28px; padding: 6px !important; }
+            .sub-header { font-size: 30px; }
+            .label-cell { font-size: 24px; }
+            .textbook-selector { font-size: 22px; }
+            .input-cell { height: 58px; }
+            .table-input { font-size: 38px; }
+            .homework-area {
+                height: 136px;
+                font-size: 36px;
+                line-height: 44px;
+                background-image: repeating-linear-gradient(transparent, transparent 42px, #eee 43px, transparent 44px);
+            }
+            .need-improve-area {
+                height: 90px;
+                font-size: 36px;
+                line-height: 42px;
+                background-image: repeating-linear-gradient(transparent, transparent 40px, #eee 41px, transparent 42px);
+            }
+            .signature-header-row td { padding: 5px; font-size: 24px; }
+            .parent-note { font-size: 16px; line-height: 1.25; }
+            .signature-input {
+                height: 72px;
+                font-size: 32px;
+                line-height: 60px;
+            }
+            .review-date-wrap {
+                height: 72px;
+                padding: 7px;
+                gap: 8px;
+            }
+            .review-date-input { font-size: 30px; }
+        }
 
         @media print {
             .toolbar-container { display: none; }
@@ -463,7 +556,7 @@
         .snapshot-homework {
             font-size: 34px;
             line-height: 60px; 
-            padding: 5px 10px;
+            padding: 3px 6px;
             display: block; 
             min-height: 240px;
         }
@@ -498,7 +591,7 @@
             <div style="width: 10px;"></div>
 
             <button class="btn" onclick="fillDate()">📅 今天</button>
-            <button class="btn btn-green" onclick="copyText()">📋 複製</button>
+            <button class="btn btn-green" onclick="copyParentMessage()">📋 複製給家長</button>
             <button class="btn btn-blue" onclick="generateImage(this)">📷 截圖</button>
             <button class="btn btn-red" onclick="clearAll()">🗑️ 清空</button>
             <button class="btn btn-orange" id="btn-undo" onclick="undoClear()" style="display:none;">↩️ 復原</button>
@@ -510,45 +603,26 @@
             <input type="file" id="file-input" accept=".json" onchange="importData(this)">
         </div>
         
-        <div class="toolbar-secondary" id="slots-container">
-            </div>
+        <div class="toolbar-secondary compact-hide" id="slots-container"></div>
     </div>
 
     <div class="page-container" id="capture-area">
         
-        <div class="class-row">
-            <div class="stack-label">
-                <span class="zh">班級 :</span>
-                <span class="en">(Class)</span>
+        <div class="compact-info-row">
+            <div class="compact-field">
+                <div class="stack-label"><span class="zh">班級</span><span class="en">Class</span></div>
+                <input type="text" class="highlight-input input-classname" id="class-name">
             </div>
-            <input type="text" class="highlight-input input-classname" id="class-name">
-        </div>
-
-        <div class="header-row">
-            <div class="date-title-group">
-                <div class="stack-label">
-                    <span class="zh">日期 :</span>
-                    <span class="en">(Date)</span>
-                </div>
-            </div>
-            <div class="date-inputs-group">
+            <div class="compact-field">
+                <div class="stack-label"><span class="zh">月</span><span class="en">Month</span></div>
                 <input type="text" class="highlight-input input-month" id="month">
-                <div class="stack-label">
-                    <span class="zh">月</span>
-                    <span class="en">(Month)</span>
-                </div>
-                <div style="width: 20px;"></div>
-                <input type="text" class="highlight-input input-day" id="day">
-                <div class="stack-label">
-                    <span class="zh">日</span>
-                    <span class="en">(Day)</span>
-                </div>
             </div>
-            <div class="weekday-group">
-                <div class="stack-label">
-                    <span class="zh">星期 :</span>
-                    <span class="en">(Day of the Week)</span>
-                </div>
+            <div class="compact-field">
+                <div class="stack-label"><span class="zh">日</span><span class="en">Day</span></div>
+                <input type="text" class="highlight-input input-day" id="day">
+            </div>
+            <div class="compact-field">
+                <div class="stack-label"><span class="zh">星期</span><span class="en">Weekday</span></div>
                 <input type="text" class="highlight-input input-weekday" id="weekday">
             </div>
         </div>
@@ -609,33 +683,42 @@
                 </td>
             </tr>
 
+            <tr>
+                <td colspan="4" class="sub-header">Need Improvement 需要改進</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="input-cell" style="vertical-align: top; height: 118px;">
+                    <textarea class="homework-area need-improve-area save-target" data-id="improve" placeholder="可註明：單字拼寫、句子書寫、朗讀、回答問題、作業訂正等..."></textarea>
+                </td>
+            </tr>
+
             <tr class="signature-header-row">
                 <td colspan="2">
                     <div class="signature-text">Teacher's Signature 老師簽名</div>
                 </td>
                 <td colspan="2">
                     <div class="signature-text">
-                        Parent's Signature 家長簽名<br>
-                        <span class="parent-note">寶貝完成複習後，請在聯絡簿相對應的日期上簽名。謝謝。</span>
+                        複習日期/家長簽名<br>
+                        <span class="parent-note">完成複習後，請寫上日期；可填約 5 次。</span>
                     </div>
                 </td>
             </tr>
             
             <tr>
                 <td colspan="2" class="input-cell">
-                    <textarea class="signature-input save-target" data-id="sign_teacher" placeholder=""></textarea>
+                    <textarea class="signature-input save-target" data-id="sign_teacher" placeholder="老師簽名"></textarea>
                 </td>
                 <td colspan="2" class="input-cell">
-                    <textarea class="signature-input save-target" data-id="sign_parent" placeholder=""></textarea>
+                    <div class="review-date-wrap">
+                        <input type="text" class="review-date-input save-target" data-id="review_date_1" placeholder="日期1">
+                        <input type="text" class="review-date-input save-target" data-id="review_date_2" placeholder="日期2">
+                        <input type="text" class="review-date-input save-target" data-id="review_date_3" placeholder="日期3">
+                        <input type="text" class="review-date-input save-target" data-id="review_date_4" placeholder="日期4">
+                        <input type="text" class="review-date-input save-target" data-id="review_date_5" placeholder="日期5">
+                    </div>
                 </td>
             </tr>
         </table>
-
-        <div class="important-notice">
-            <h3 id="footer-notice-title">請家長提醒寶貝要利用點讀筆做複習哦！</h3>
-            <ul class="notice-list" id="footer-list">
-                </ul>
-        </div>
     </div>
 
     <script>
@@ -733,15 +816,7 @@
             document.getElementById('group-ph-ap').classList.remove('hidden');
             document.getElementById('group-ph-kindy').classList.add('hidden');
             document.getElementById('label-wr').innerText = "Writing";
-            document.getElementById('header-quiz').innerText = "Quiz/ Test for Next Time 下次考試";
-            document.getElementById('footer-notice-title').innerText = "請家長提醒寶貝要利用點讀筆做複習哦！";
-            document.getElementById('footer-list').innerHTML = `
-                <li>★要會單字拼字</li>
-                <li>★要會書寫句子</li>
-                <li>★要會回答問題</li>
-                <li>★要會讀句子</li>
-            `;
-        }
+            document.getElementById('header-quiz').innerText = "Quiz/ Test for Next Time 下次考試";        }
 
         function renderKindyMode() {
             document.getElementById('label-book-ap').classList.add('hidden');
@@ -749,15 +824,7 @@
             document.getElementById('group-ph-ap').classList.add('hidden');
             document.getElementById('group-ph-kindy').classList.remove('hidden');
             document.getElementById('label-wr').innerText = "Activity Book";
-            document.getElementById('header-quiz').innerText = "Focus Areas 需加強範圍";
-            document.getElementById('footer-notice-title').innerText = "請家長協助孩子在家中，用點讀筆輕鬆聽、跟著玩";
-            document.getElementById('footer-list').innerHTML = `
-                <li>★多聽</li>
-                <li>★會跟讀</li>
-                <li>★敢開口說</li>
-                <li>★建立熟悉感</li>
-            `;
-        }
+            document.getElementById('header-quiz').innerText = "Focus Areas 需加強範圍";        }
 
         function fillDate() {
             const now = new Date();
@@ -838,7 +905,7 @@
                     if (i === activeSlotId) {
                         card.classList.add('active-slot');
                         const currentName = document.querySelector(`#slot-card-${i} .slot-name-input`).value;
-                        document.getElementById('btn-main-save').innerText = `💾 儲存 (目前: ${currentName})`;
+                        document.getElementById('btn-main-save').innerText = '💾 儲存';
                     } else {
                         card.classList.remove('active-slot');
                     }
@@ -1024,81 +1091,178 @@
             reader.readAsText(file);
         }
 
-        // --- 匯出文字訊息 ---
-        function copyText() {
-            const className = document.getElementById('class-name').value || '';
-            const m = document.getElementById('month').value || '';
-            const d = document.getElementById('day').value || '';
-            const w = document.getElementById('weekday').value || '';
-            
+        // --- 產生 LINE 訊息 / 複製功能 ---
+        function valueOf(selector) {
+            const el = document.querySelector(selector);
+            return el ? el.value.trim() : '';
+        }
+
+        function selectorActive(id) {
+            const el = document.getElementById(id);
+            return el ? el.classList.contains('active') : false;
+        }
+
+        function buildLineMessage() {
+            const className = document.getElementById('class-name')?.value.trim() || '';
+            const m = document.getElementById('month')?.value.trim() || '';
+            const d = document.getElementById('day')?.value.trim() || '';
+            const w = document.getElementById('weekday')?.value.trim() || '';
+
+            const bjVal = valueOf('input[data-id="bj"]');
+            const phVal = valueOf('input[data-id="ph"]');
+            const wrVal = valueOf('input[data-id="wr"]');
+            const otVal = valueOf('input[data-id="ot"]');
+            const hwVal = valueOf('textarea[data-id="hw"]');
+            const qzVal = valueOf('textarea[data-id="qz"]');
+            const improveVal = valueOf('textarea[data-id="improve"]');
+            const reviewDates = Array.from(document.querySelectorAll('.review-date-input'))
+                .map(input => input.value.trim())
+                .filter(Boolean);
+
             let bookTitle1 = '';
             if (currentMode === 'AP') {
-                const isBj = document.getElementById('sel-bj').classList.contains('active');
-                const isClil = document.getElementById('sel-clil').classList.contains('active');
-                if(isBj) bookTitle1 += 'Big Jump';
-                if(isBj && isClil) bookTitle1 += ' / ';
-                if(isClil) bookTitle1 += 'CLIL';
+                const titles = [];
+                if (selectorActive('sel-bj')) titles.push('Big Jump');
+                if (selectorActive('sel-clil')) titles.push('CLIL');
+                bookTitle1 = titles.join(' / ');
+                if (!bookTitle1 && bjVal) bookTitle1 = 'Big Jump / CLIL';
             } else {
-                const isSb = document.getElementById('sel-sb').classList.contains('active');
-                if(isSb) bookTitle1 = 'Student Book';
-                const hasContent = document.querySelector('input[data-id="bj"]').value.trim() !== '';
-                if(!bookTitle1 && hasContent) bookTitle1 = 'Student Book'; 
+                bookTitle1 = selectorActive('sel-sb') || bjVal ? 'Student Book' : '';
             }
 
             let bookTitle2 = '';
             if (currentMode === 'AP') {
-                const isPh = document.getElementById('sel-ph').classList.contains('active');
-                const isBr = document.getElementById('sel-br').classList.contains('active');
-                if(isPh) bookTitle2 += 'Phonics';
-                if(isPh && isBr) bookTitle2 += ' / ';
-                if(isBr) bookTitle2 += 'Better Reader';
-                if(!bookTitle2) bookTitle2 = 'Phonics/Better Reader';
+                const titles = [];
+                if (selectorActive('sel-ph')) titles.push('Phonics');
+                if (selectorActive('sel-br')) titles.push('Better Reader');
+                bookTitle2 = titles.join(' / ');
+                if (!bookTitle2 && phVal) bookTitle2 = 'Phonics / Better Reader';
             } else {
-                bookTitle2 = 'Stem/CLIL';
+                bookTitle2 = phVal ? 'Stem / CLIL' : '';
             }
 
-            const labelWr = document.getElementById('label-wr').innerText;
-            const bjVal = document.querySelector('input[data-id="bj"]').value;
-            const phVal = document.querySelector('input[data-id="ph"]').value;
-            const wrVal = document.querySelector('input[data-id="wr"]').value;
-            const otVal = document.querySelector('input[data-id="ot"]').value;
-            const hwVal = document.querySelector('textarea[data-id="hw"]').value;
-            const qzVal = document.querySelector('textarea[data-id="qz"]').value;
+            const labelWr = document.getElementById('label-wr')?.innerText.trim() || 'Writing';
+            const quizTitle = currentMode === 'AP' ? '📝 下次考試 Quiz / Test' : '🎯 需加強範圍 Focus Areas';
 
-            let text = `【英文班課程進度通知】\n`;
-            if (className) text += `🏫 班級：${className}\n`;
-            text += `📅 日期：${m}月${d}日 (${w})\n\n`;
+            const lines = [];
 
-            text += `📖 今日課程 Today's Lesson\n`;
-            
-            let listIndex = 1;
-            if (bookTitle1 || bjVal) text += `${listIndex++}. ${bookTitle1}：${bjVal}\n`;
-            if (phVal) text += `${listIndex++}. ${bookTitle2}：${phVal}\n`;
-            if (wrVal) text += `${listIndex++}. ${labelWr}：${wrVal}\n`;
-            if (otVal) text += `${listIndex++}. Other：${otVal}\n`;
-            
-            text += `\n🏠 回家作業 Homework\n`;
-            text += hwVal ? `${hwVal}\n` : `(無)\n`;
+            function addSection(title, content) {
+                const contentLines = Array.isArray(content)
+                    ? content.map(x => String(x).trim()).filter(Boolean)
+                    : String(content || '').split(/\n+/).map(x => x.trim()).filter(Boolean);
 
-            if (currentMode === 'AP') {
-                text += `\n📝 下次考試 Quiz\n`;
-            } else {
-                text += `\n🎯 需加強範圍 Focus Areas\n`;
+                if (!contentLines.length) return;
+
+                if (lines.length && lines[lines.length - 1] !== '') lines.push('');
+                lines.push(title);
+                contentLines.forEach(line => lines.push(`• ${line}`));
             }
-            text += qzVal ? `${qzVal}\n` : `(無)\n`;
 
-            text += `\n🔔 老師的小叮嚀：\n`;
-            text += `${document.getElementById('footer-notice-title').innerText}\n`;
-            document.querySelectorAll('#footer-list li').forEach(item => {
-                text += `${item.innerText}\n`;
+            lines.push('【英文班課程進度通知】');
+            if (className) lines.push(`班級：${className}`);
+            if (m || d || w) lines.push(`日期：${m}月${d}日${w ? '（' + w + '）' : ''}`);
+
+            const lessonLines = [];
+            if (bjVal) lessonLines.push(`${bookTitle1 || '課本'}：${bjVal}`);
+            if (phVal) lessonLines.push(`${bookTitle2 || 'Phonics / Better Reader'}：${phVal}`);
+            if (wrVal) lessonLines.push(`${labelWr}：${wrVal}`);
+            if (otVal) lessonLines.push(`Other：${otVal}`);
+
+            addSection('📘 今日課程', lessonLines);
+            addSection('🏠 回家作業', hwVal);
+            addSection(quizTitle, qzVal);
+            addSection('✅ 需要改進', improveVal);
+            addSection('✍️ 複習日期/家長簽名', reviewDates.length ? reviewDates.join('、') : '');
+
+            if (lines.length && lines[lines.length - 1] !== '') lines.push('');
+            lines.push('🔔 老師的小叮嚀');
+            lines.push('請家長提醒寶貝要利用點讀筆做複習哦！');
+            lines.push('★要會單字拼字');
+            lines.push('★要會書寫句子');
+            lines.push('★要會回答問題');
+            lines.push('★要會讀句子');
+
+            return lines.join('\n');
+        }
+
+        function copyTextToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(text);
+            }
+
+            return new Promise((resolve, reject) => {
+                try {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    textarea.setAttribute('readonly', '');
+                    textarea.style.position = 'fixed';
+                    textarea.style.top = '-9999px';
+                    textarea.style.left = '-9999px';
+                    document.body.appendChild(textarea);
+                    textarea.focus();
+                    textarea.select();
+                    const ok = document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    ok ? resolve() : reject(new Error('copy command failed'));
+                } catch (err) {
+                    reject(err);
+                }
             });
-            
-            navigator.clipboard.writeText(text).then(() => {
-                alert('✅ 內容已複製！');
-            }).catch(err => {
-                console.error('無法複製', err);
-                alert('複製失敗，請手動選取文字。');
-            });
+        }
+
+        function showManualCopyBox(text) {
+            const manualBox = document.createElement('textarea');
+            manualBox.value = text;
+            manualBox.style.position = 'fixed';
+            manualBox.style.left = '50%';
+            manualBox.style.top = '50%';
+            manualBox.style.transform = 'translate(-50%, -50%)';
+            manualBox.style.width = '82vw';
+            manualBox.style.height = '52vh';
+            manualBox.style.zIndex = '99999';
+            manualBox.style.fontSize = '22px';
+            manualBox.style.padding = '16px';
+            manualBox.style.border = '4px solid #0056b3';
+            manualBox.style.borderRadius = '12px';
+            manualBox.style.boxShadow = '0 8px 30px rgba(0,0,0,.35)';
+            document.body.appendChild(manualBox);
+            manualBox.focus();
+            manualBox.select();
+            alert('⚠️ 瀏覽器不允許自動複製。\n我已經幫你把訊息放在畫面中央，請按 Ctrl+C 複製，再貼到 LINE。\n複製後點一下文字框外即可關閉。');
+            manualBox.addEventListener('blur', () => manualBox.remove(), { once: true });
+        }
+
+        function copyParentMessage() {
+            const text = buildLineMessage();
+            copyTextToClipboard(text)
+                .then(() => {
+                    alert('✅ 已複製給家長的訊息！\n請直接到 LINE 聊天室貼上即可。');
+                })
+                .catch(() => {
+                    showManualCopyBox(text);
+                });
+        }
+
+        function shareToLine() {
+            // 只複製，不開啟 LINE 頁面。
+            copyParentMessage();
+        }
+
+        // 保留舊名稱，避免舊按鈕或快捷呼叫失效。
+        function buildCopyText() { return buildLineMessage(); }
+        function copyText() { copyParentMessage(); }
+        function downloadTextFile() {
+            const text = buildLineMessage();
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            const dateStr = new Date().toLocaleDateString('zh-TW').replace(/\//g, '-');
+            const className = (document.getElementById('class-name')?.value.trim() || '聯絡簿').replace(/[\\/:*?"<>|]/g, '_');
+            link.download = `${className}_${dateStr}.txt`;
+            link.href = URL.createObjectURL(blob);
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(link.href), 500);
+            link.remove();
         }
 
         // --- 截圖生成圖片 ---
@@ -1114,7 +1278,7 @@
                 clone.style.position = 'absolute';
                 clone.style.top = '-9999px';
                 clone.style.left = '-9999px';
-                clone.style.width = '250mm'; 
+                clone.style.width = source.offsetWidth + 'px'; 
                 clone.style.backgroundColor = '#ffffff';
                 
                 const inputs = clone.querySelectorAll('input, textarea');
@@ -1130,21 +1294,33 @@
 
                     if (originalInput.classList.contains('input-month') || originalInput.classList.contains('input-day')) {
                         div.classList.add('snapshot-date');
-                        div.style.width = '80px';
+                        div.style.width = '100%';
                     } else if (originalInput.classList.contains('input-weekday')) {
                         div.classList.add('snapshot-date');
                         div.style.textAlign = 'left';
                         div.style.paddingLeft = '10px';
-                        div.style.width = '180px';
+                        div.style.width = '100%';
                     } else if (originalInput.classList.contains('input-classname')) {
                         div.classList.add('snapshot-date');
                         div.style.textAlign = 'left';
                         div.style.paddingLeft = '10px';
-                        div.style.width = '400px';
+                        div.style.width = '100%';
                     } else if (originalInput.classList.contains('table-input')) {
                         div.classList.add('snapshot-table-input');
+                    } else if (originalInput.classList.contains('need-improve-area')) {
+                        div.classList.add('snapshot-homework');
+                        div.style.minHeight = '90px';
+                        div.style.lineHeight = '42px';
                     } else if (originalInput.classList.contains('homework-area')) {
                         div.classList.add('snapshot-homework');
+                    } else if (originalInput.classList.contains('review-date-input')) {
+                        div.classList.add('snapshot-signature');
+                        div.style.border = '2px solid #2d89ef';
+                        div.style.borderRadius = '8px';
+                        div.style.fontSize = '30px';
+                        div.style.height = '58px';
+                        div.style.display = 'flex';
+                        div.style.alignItems = 'center';
                     } else if (originalInput.classList.contains('signature-input')) {
                         div.classList.add('snapshot-signature');
                     }
