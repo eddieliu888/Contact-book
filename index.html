@@ -573,6 +573,339 @@
         /* 隱藏元素用 */
         .hidden { display: none !important; }
 
+
+
+        /* ============================================================
+           新版聯絡簿：依新版紙本配置新增的第二個檢視
+           舊版 .page-container / .main-table 等樣式完全保留不動
+           ============================================================ */
+        .book-view-hidden { display: none !important; }
+
+        .btn-newbook {
+            background: #2f765f;
+            border: 2px solid #7fc4ad;
+        }
+        .btn-newbook:hover { background: #255f4c; }
+        .btn-newbook.is-new { background: #7b5d13; border-color: #e6c968; }
+        .btn-newbook.is-new:hover { background: #624a0f; }
+
+        .new-book-page {
+            padding: 6px 10px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        .new-contact-table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            border: 2.5px solid #567868;
+            color: #315d4c;
+            background: #fff;
+        }
+
+        .new-contact-table td {
+            border: 1.6px solid #6f8f81;
+            padding: 0;
+            vertical-align: middle;
+            box-sizing: border-box;
+        }
+
+        .new-date-row { height: 12%; }
+        .new-lesson-row { height: 25%; }
+        .new-participation-row { height: 22%; }
+        .new-homework-row { height: 23%; }
+        .new-extra-row { height: 18%; }
+
+        .new-side-label {
+            width: 15%;
+            text-align: center;
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+            font-size: clamp(20px, 1.65vw, 28px);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: .5px;
+            background: #f8fbf9;
+        }
+
+        .new-side-label .en {
+            display: block;
+            margin-top: 3px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: .72em;
+            font-weight: 500;
+            letter-spacing: 0;
+        }
+
+        .new-date-main-cell {
+            padding: 0 !important;
+        }
+
+        .new-date-grid {
+            display: grid;
+            grid-template-columns: 1.18fr .95fr .95fr 1.22fr;
+            width: 100%;
+            height: 100%;
+        }
+
+        .new-date-box {
+            display: grid;
+            grid-template-columns: auto minmax(54px, 1fr);
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 0;
+            padding: 4px 12px;
+            border-right: 1.6px solid #6f8f81;
+        }
+        .new-date-box:last-child { border-right: none; }
+
+        .new-date-caption {
+            text-align: center;
+            line-height: 1.05;
+            font-size: clamp(18px, 1.3vw, 24px);
+            font-weight: 800;
+            white-space: nowrap;
+        }
+        .new-date-caption small {
+            display: block;
+            margin-top: 2px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: .68em;
+            font-weight: 500;
+        }
+
+        .new-date-input {
+            width: 100%;
+            min-width: 0;
+            height: 46px;
+            border: none;
+            border-bottom: 2px solid #8aa497;
+            outline: none;
+            text-align: center;
+            background: transparent;
+            font-family: "Patrick Hand", "標楷體", "KaiTi", cursive;
+            font-size: clamp(28px, 2.3vw, 40px);
+            font-weight: 900;
+            color: #111;
+            box-sizing: border-box;
+        }
+
+        .new-period-box {
+            grid-template-columns: auto minmax(42px, .65fr) auto;
+            gap: 4px;
+            white-space: nowrap;
+            font-size: clamp(18px, 1.3vw, 24px);
+            font-weight: 800;
+        }
+        .new-period-box .new-date-input { max-width: 90px; }
+
+        .new-lesson-content {
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .new-lesson-item {
+            display: grid;
+            grid-template-columns: minmax(135px, 25%) 1fr;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 14px;
+            border-right: 1px solid #d2ddd7;
+            border-bottom: 1px solid #d2ddd7;
+            min-width: 0;
+            overflow: hidden;
+        }
+        .new-lesson-item:nth-child(2n) { border-right: none; }
+        .new-lesson-item:nth-child(n+3) { border-bottom: none; }
+
+        .new-lesson-book {
+            font-size: clamp(17px, 1.4vw, 24px);
+            font-weight: 800;
+            color: #376b56;
+            line-height: 1.15;
+        }
+
+        .new-sync-text {
+            min-width: 0;
+            color: #111;
+            font-family: "Patrick Hand", "標楷體", "KaiTi", cursive;
+            font-weight: 900;
+            font-size: clamp(24px, 2.1vw, 36px);
+            line-height: 1.18;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            overflow: hidden;
+        }
+
+        .new-participation-grid {
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-content: center;
+            column-gap: 28px;
+            row-gap: 2px;
+            padding: 8px 20px;
+            box-sizing: border-box;
+        }
+
+        .new-check-item {
+            appearance: none;
+            border: none;
+            background: transparent;
+            padding: 2px 4px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            text-align: left;
+            color: #315d4c;
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+            font-size: clamp(17px, 1.35vw, 24px);
+            font-weight: 800;
+            cursor: pointer;
+            border-radius: 6px;
+            min-width: 0;
+        }
+        .new-check-item:hover { background: #eef6f2; }
+        .new-check-item.selected { color: #0f5038; background: #e4f2ec; }
+
+        .new-checkbox {
+            width: 22px;
+            height: 22px;
+            flex: 0 0 22px;
+            border: 1.8px solid #6f8f81;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            font-size: 20px;
+            line-height: 1;
+            color: #165b42;
+            background: white;
+        }
+        .new-check-item.selected .new-checkbox::after { content: "✓"; font-weight: 900; }
+
+        .new-homework-layout {
+            height: 100%;
+            display: grid;
+            grid-template-columns: minmax(150px, 18%) 1fr;
+        }
+
+        .new-homework-guide {
+            border-right: 1px solid #d2ddd7;
+            padding: 9px 10px;
+            box-sizing: border-box;
+            color: #376b56;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(15px, 1.16vw, 21px);
+            font-weight: 500;
+            line-height: 1.45;
+        }
+        .new-homework-guide div { white-space: nowrap; }
+
+        .new-homework-display {
+            padding: 10px 18px;
+            box-sizing: border-box;
+            display: block;
+            font-size: clamp(24px, 2.05vw, 35px);
+            line-height: 1.28;
+            overflow: hidden;
+        }
+
+        .new-extra-layout {
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1.05fr 1.35fr 1fr;
+        }
+
+        .new-extra-box {
+            min-width: 0;
+            padding: 5px 10px;
+            border-right: 1px solid #d2ddd7;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .new-extra-box:last-child { border-right: none; }
+
+        .new-extra-title {
+            color: #315d4c;
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+            font-size: clamp(15px, 1.14vw, 21px);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 4px;
+            white-space: nowrap;
+        }
+        .new-extra-title .en {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: .72em;
+            font-weight: 500;
+            margin-left: 4px;
+        }
+
+        .new-extra-content {
+            color: #111;
+            font-family: "Patrick Hand", "標楷體", "KaiTi", cursive;
+            font-size: clamp(19px, 1.65vw, 29px);
+            font-weight: 900;
+            line-height: 1.18;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            overflow: hidden;
+        }
+
+        .new-review-dates {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin-top: 6px;
+        }
+
+        .new-review-chip {
+            height: 39px;
+            border: 1.5px solid #8aa497;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #111;
+            background: #fff;
+            font-family: "Patrick Hand", "標楷體", "KaiTi", cursive;
+            font-size: clamp(15px, 1.15vw, 21px);
+            font-weight: 900;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .snapshot-new-date {
+            height: 46px;
+            border-bottom: 2px solid #8aa497;
+            justify-content: center;
+            text-align: center;
+            font-size: 36px;
+            box-sizing: border-box;
+        }
+
+        @media (max-height: 820px) {
+            .new-book-page { padding: 4px 8px; }
+            .new-participation-grid { padding: 5px 16px; row-gap: 0; }
+            .new-check-item { padding: 1px 3px; }
+            .new-checkbox { width: 19px; height: 19px; flex-basis: 19px; font-size: 17px; }
+            .new-date-input { height: 38px; }
+            .new-lesson-item { padding-top: 3px; padding-bottom: 3px; }
+            .new-homework-display { padding-top: 6px; padding-bottom: 6px; }
+            .new-review-chip { height: 31px; }
+        }
+
+        @media print {
+            .new-book-page { width: 100%; height: 100vh; box-shadow: none; border-radius: 0; }
+        }
+
     </style>
 </head>
 <body>
@@ -591,6 +924,7 @@
             <div style="width: 10px;"></div>
 
             <button class="btn" onclick="fillDate()">📅 今天</button>
+            <button class="btn btn-newbook" id="btn-book-version" onclick="toggleBookVersion()" title="切換舊版／新版聯絡簿">🆕 新版聯絡簿</button>
             <button class="btn btn-green" onclick="copyParentMessage()">📋 複製給家長</button>
             <button class="btn btn-blue" onclick="generateImage(this)">📷 截圖</button>
             <button class="btn btn-red" onclick="clearAll()">🗑️ 清空</button>
@@ -721,10 +1055,145 @@
         </table>
     </div>
 
+
+
+    <!-- ============================================================
+         新版聯絡簿檢視：資料與舊版聯動，舊版本體完全保留
+         ============================================================ -->
+    <div class="page-container new-book-page book-view-hidden" id="new-capture-area">
+        <table class="new-contact-table" aria-label="新版聯絡簿">
+            <tr class="new-date-row">
+                <td class="new-side-label">
+                    上課日期
+                    <span class="en">Date</span>
+                </td>
+                <td class="new-date-main-cell">
+                    <div class="new-date-grid">
+                        <div class="new-date-box">
+                            <div class="new-date-caption">年<small>Year</small></div>
+                            <input type="text" id="new-year" class="new-date-input" inputmode="numeric" autocomplete="off" aria-label="Year">
+                        </div>
+                        <div class="new-date-box">
+                            <div class="new-date-caption">月<small>Month</small></div>
+                            <input type="text" id="new-month" class="new-date-input" inputmode="numeric" autocomplete="off" aria-label="Month">
+                        </div>
+                        <div class="new-date-box">
+                            <div class="new-date-caption">日<small>Day</small></div>
+                            <input type="text" id="new-day" class="new-date-input" inputmode="numeric" autocomplete="off" aria-label="Day">
+                        </div>
+                        <div class="new-date-box new-period-box">
+                            <span>第（</span>
+                            <input type="text" id="new-period" class="new-date-input" inputmode="numeric" autocomplete="off" aria-label="Period">
+                            <span>）堂</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="new-lesson-row">
+                <td class="new-side-label">
+                    課程進度
+                    <span class="en">Today's Lesson</span>
+                </td>
+                <td>
+                    <div class="new-lesson-content">
+                        <div class="new-lesson-item">
+                            <div class="new-lesson-book" id="new-lesson-label-1">Big Jump / CLIL</div>
+                            <div class="new-sync-text" id="new-lesson-1"></div>
+                        </div>
+                        <div class="new-lesson-item">
+                            <div class="new-lesson-book" id="new-lesson-label-2">Phonics / Better Reader</div>
+                            <div class="new-sync-text" id="new-lesson-2"></div>
+                        </div>
+                        <div class="new-lesson-item">
+                            <div class="new-lesson-book" id="new-lesson-label-3">Writing</div>
+                            <div class="new-sync-text" id="new-lesson-3"></div>
+                        </div>
+                        <div class="new-lesson-item">
+                            <div class="new-lesson-book">Other</div>
+                            <div class="new-sync-text" id="new-lesson-4"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="new-participation-row">
+                <td class="new-side-label">
+                    課堂表現
+                    <span class="en">Learning<br>Participation</span>
+                </td>
+                <td>
+                    <div class="new-participation-grid">
+                        <button type="button" class="new-check-item" data-check-id="speak" onclick="toggleNewCheck('speak')"><span class="new-checkbox"></span>踴躍發言</button>
+                        <button type="button" class="new-check-item" data-check-id="unsigned" onclick="toggleNewCheck('unsigned')"><span class="new-checkbox"></span>連絡本未簽名</button>
+                        <button type="button" class="new-check-item" data-check-id="neat" onclick="toggleNewCheck('neat')"><span class="new-checkbox"></span>作業工整</button>
+                        <button type="button" class="new-check-item" data-check-id="no-book" onclick="toggleNewCheck('no-book')"><span class="new-checkbox"></span>未帶 ______ 課本</button>
+                        <button type="button" class="new-check-item" data-check-id="attentive" onclick="toggleNewCheck('attentive')"><span class="new-checkbox"></span>上課認真</button>
+                        <button type="button" class="new-check-item" data-check-id="distracted" onclick="toggleNewCheck('distracted')"><span class="new-checkbox"></span>上課不專心</button>
+                        <button type="button" class="new-check-item" data-check-id="pronunciation" onclick="toggleNewCheck('pronunciation')"><span class="new-checkbox"></span>發音標準</button>
+                        <button type="button" class="new-check-item" data-check-id="late" onclick="toggleNewCheck('late')"><span class="new-checkbox"></span>上課遲到</button>
+                        <button type="button" class="new-check-item" data-check-id="test-good" onclick="toggleNewCheck('test-good')"><span class="new-checkbox"></span>考試優良</button>
+                        <button type="button" class="new-check-item" data-check-id="missing-hw" onclick="toggleNewCheck('missing-hw')"><span class="new-checkbox"></span>缺交作業</button>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="new-homework-row">
+                <td class="new-side-label">
+                    回家作業
+                    <span class="en">Homework</span>
+                </td>
+                <td>
+                    <div class="new-homework-layout">
+                        <div class="new-homework-guide" aria-hidden="true">
+                            <div>Listen(聽):</div>
+                            <div>Studying(讀):</div>
+                            <div>Writing(寫):</div>
+                            <div>Next Quiz(下次小考):</div>
+                            <div>Others(其它):</div>
+                        </div>
+                        <div class="new-sync-text new-homework-display" id="new-homework-display"></div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="new-extra-row">
+                <td class="new-side-label">
+                    補充紀錄
+                    <span class="en">Follow-up</span>
+                </td>
+                <td>
+                    <div class="new-extra-layout">
+                        <div class="new-extra-box">
+                            <div class="new-extra-title" id="new-quiz-title">下次考試 <span class="en">Quiz / Test</span></div>
+                            <div class="new-extra-content" id="new-quiz-display"></div>
+                        </div>
+                        <div class="new-extra-box">
+                            <div class="new-extra-title">需要改進 <span class="en">Need Improvement</span></div>
+                            <div class="new-extra-content" id="new-improve-display"></div>
+                        </div>
+                        <div class="new-extra-box">
+                            <div class="new-extra-title">複習日期 <span class="en">Review Date</span></div>
+                            <div class="new-review-dates" id="new-review-dates">
+                                <div class="new-review-chip" data-review-index="0"></div>
+                                <div class="new-review-chip" data-review-index="1"></div>
+                                <div class="new-review-chip" data-review-index="2"></div>
+                                <div class="new-review-chip" data-review-index="3"></div>
+                                <div class="new-review-chip" data-review-index="4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <script>
         // --- 狀態管理 ---
         let currentMode = 'AP'; // 'AP' or 'KINDY'
         const SELECTOR_IDS = ['sel-bj', 'sel-clil', 'sel-sb', 'sel-ph', 'sel-br'];
+        const NEW_CHECK_IDS = ['speak', 'unsigned', 'neat', 'no-book', 'attentive', 'distracted', 'pronunciation', 'late', 'test-good', 'missing-hw'];
+        let currentBookView = 'old'; // 'old' 或 'new'
         
         // 新增：班級管理
         let activeSlotId = 1; // 預設當前班級 ID
@@ -750,6 +1219,16 @@
             // 還原書本選擇
             SELECTOR_IDS.forEach(id => restoreTextbookSelection(id));
 
+            // 還原新版課堂表現勾選
+            restoreNewChecks();
+
+            // 新版年份若尚未設定，預設為今年
+            const newYearInput = document.getElementById('new-year');
+            if (newYearInput && !newYearInput.value) {
+                newYearInput.value = new Date().getFullYear();
+                localStorage.setItem('contact_book_v2_new-year', newYearInput.value);
+            }
+
             // 還原模式，預設AP
             const savedMode = localStorage.getItem('contact_book_mode');
             if(savedMode) {
@@ -764,6 +1243,10 @@
                 activeSlotId = parseInt(lastActive);
                 updateSlotVisuals();
             }
+
+            syncNewVersionPreview();
+            const savedBookView = localStorage.getItem('contact_book_book_view');
+            setBookView(savedBookView === 'new' ? 'new' : 'old');
         });
 
         inputs.forEach(input => {
@@ -772,7 +1255,26 @@
                 if (key) {
                     localStorage.setItem('contact_book_v2_' + key, input.value);
                 }
+                if (input.id !== 'new-month' && input.id !== 'new-day') {
+                    syncNewVersionPreview();
+                }
             });
+        });
+
+        // 新版日期的月／日可直接輸入，並即時回寫舊版日期欄位。
+        document.getElementById('new-month')?.addEventListener('input', (e) => {
+            const oldInput = document.getElementById('month');
+            if (oldInput && oldInput.value !== e.target.value) {
+                oldInput.value = e.target.value;
+                oldInput.dispatchEvent(new Event('input'));
+            }
+        });
+        document.getElementById('new-day')?.addEventListener('input', (e) => {
+            const oldInput = document.getElementById('day');
+            if (oldInput && oldInput.value !== e.target.value) {
+                oldInput.value = e.target.value;
+                oldInput.dispatchEvent(new Event('input'));
+            }
         });
 
         function toggleTextbook(id) {
@@ -780,6 +1282,7 @@
             el.classList.toggle('active');
             const isSelected = el.classList.contains('active');
             localStorage.setItem('contact_book_v2_select_' + id, isSelected);
+            syncNewVersionPreview();
         }
 
         function restoreTextbookSelection(id) {
@@ -808,6 +1311,7 @@
                 document.getElementById('btn-mode-kindy').classList.add('active');
                 renderKindyMode();
             }
+            syncNewVersionPreview();
         }
 
         function renderAPMode() {
@@ -832,6 +1336,11 @@
             const m = document.getElementById('month');
             const d = document.getElementById('day');
             const w = document.getElementById('weekday');
+            const y = document.getElementById('new-year');
+            if (y) {
+                y.value = now.getFullYear();
+                y.dispatchEvent(new Event('input'));
+            }
             m.value = now.getMonth() + 1;
             d.value = now.getDate();
             w.value = days[now.getDay()];
@@ -927,6 +1436,11 @@
                 const el = document.getElementById(id);
                 data.selectors[id] = el ? el.classList.contains('active') : false;
             });
+            data.newBookChecks = {};
+            NEW_CHECK_IDS.forEach(id => {
+                const el = document.querySelector(`.new-check-item[data-check-id="${id}"]`);
+                data.newBookChecks[id] = !!(el && el.classList.contains('selected'));
+            });
             return data;
         }
 
@@ -939,7 +1453,7 @@
                     localStorage.setItem('contact_book_v2_' + key, value);
                 }
             }
-            for (const [id, isActive] of Object.entries(data.selectors)) {
+            for (const [id, isActive] of Object.entries(data.selectors || {})) {
                 const el = document.getElementById(id);
                 if (el) {
                     if (isActive) el.classList.add('active');
@@ -947,6 +1461,13 @@
                     localStorage.setItem('contact_book_v2_select_' + id, isActive);
                 }
             }
+
+            // 新版課堂表現也跟著班級存檔切換；舊存檔沒有此欄位時預設全部取消。
+            NEW_CHECK_IDS.forEach(id => {
+                const isSelected = !!(data.newBookChecks && data.newBookChecks[id]);
+                setNewCheckState(id, isSelected, true);
+            });
+            syncNewVersionPreview();
         }
 
         function loadAndActivateSlot(slotId) {
@@ -1010,6 +1531,8 @@
                 if(el) el.classList.remove('active');
                 localStorage.removeItem('contact_book_v2_select_' + id);
             });
+            NEW_CHECK_IDS.forEach(id => setNewCheckState(id, false, true));
+            syncNewVersionPreview();
         }
 
         function clearAll() {
@@ -1029,6 +1552,132 @@
                 document.getElementById('btn-undo').style.display = 'none'; 
                 alert('✅ 已復原剛才清空的內容！');
             }
+        }
+
+
+        // --- 新版聯絡簿：檢視切換、同步與課堂表現 ---
+        function setBookView(view) {
+            currentBookView = view === 'new' ? 'new' : 'old';
+            const oldPage = document.getElementById('capture-area');
+            const newPage = document.getElementById('new-capture-area');
+            const btn = document.getElementById('btn-book-version');
+
+            if (currentBookView === 'new') {
+                syncNewVersionPreview();
+                oldPage?.classList.add('book-view-hidden');
+                newPage?.classList.remove('book-view-hidden');
+                if (btn) {
+                    btn.innerText = '📘 舊版聯絡簿';
+                    btn.classList.add('is-new');
+                    btn.title = '返回舊版聯絡簿';
+                }
+            } else {
+                newPage?.classList.add('book-view-hidden');
+                oldPage?.classList.remove('book-view-hidden');
+                if (btn) {
+                    btn.innerText = '🆕 新版聯絡簿';
+                    btn.classList.remove('is-new');
+                    btn.title = '切換到新版聯絡簿';
+                }
+            }
+            localStorage.setItem('contact_book_book_view', currentBookView);
+        }
+
+        function toggleBookVersion() {
+            setBookView(currentBookView === 'old' ? 'new' : 'old');
+        }
+
+        function setNewCheckState(id, selected, persist = true) {
+            const el = document.querySelector(`.new-check-item[data-check-id="${id}"]`);
+            if (!el) return;
+            el.classList.toggle('selected', !!selected);
+            el.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            if (persist) {
+                localStorage.setItem('contact_book_v2_newcheck_' + id, selected ? 'true' : 'false');
+            }
+        }
+
+        function toggleNewCheck(id) {
+            const el = document.querySelector(`.new-check-item[data-check-id="${id}"]`);
+            if (!el) return;
+            setNewCheckState(id, !el.classList.contains('selected'), true);
+        }
+
+        function restoreNewChecks() {
+            NEW_CHECK_IDS.forEach(id => {
+                setNewCheckState(id, localStorage.getItem('contact_book_v2_newcheck_' + id) === 'true', false);
+            });
+        }
+
+        function getCurrentBookLabels() {
+            if (currentMode === 'KINDY') {
+                return {
+                    one: 'Student Book',
+                    two: 'Stem / CLIL',
+                    three: 'Activity Book'
+                };
+            }
+
+            const first = [];
+            if (selectorActive('sel-bj')) first.push('Big Jump');
+            if (selectorActive('sel-clil')) first.push('CLIL');
+
+            const second = [];
+            if (selectorActive('sel-ph')) second.push('Phonics');
+            if (selectorActive('sel-br')) second.push('Better Reader');
+
+            return {
+                one: first.length ? first.join(' / ') : 'Big Jump / CLIL',
+                two: second.length ? second.join(' / ') : 'Phonics / Better Reader',
+                three: 'Writing'
+            };
+        }
+
+        function syncNewVersionPreview() {
+            const newPage = document.getElementById('new-capture-area');
+            if (!newPage) return;
+
+            const oldMonth = document.getElementById('month')?.value || '';
+            const oldDay = document.getElementById('day')?.value || '';
+            const newMonth = document.getElementById('new-month');
+            const newDay = document.getElementById('new-day');
+            if (newMonth && newMonth.value !== oldMonth) newMonth.value = oldMonth;
+            if (newDay && newDay.value !== oldDay) newDay.value = oldDay;
+
+            const labels = getCurrentBookLabels();
+            const label1 = document.getElementById('new-lesson-label-1');
+            const label2 = document.getElementById('new-lesson-label-2');
+            const label3 = document.getElementById('new-lesson-label-3');
+            if (label1) label1.textContent = labels.one;
+            if (label2) label2.textContent = labels.two;
+            if (label3) label3.textContent = labels.three;
+
+            const values = {
+                'new-lesson-1': valueOf('input[data-id="bj"]'),
+                'new-lesson-2': valueOf('input[data-id="ph"]'),
+                'new-lesson-3': valueOf('input[data-id="wr"]'),
+                'new-lesson-4': valueOf('input[data-id="ot"]'),
+                'new-homework-display': valueOf('textarea[data-id="hw"]'),
+                'new-quiz-display': valueOf('textarea[data-id="qz"]'),
+                'new-improve-display': valueOf('textarea[data-id="improve"]')
+            };
+
+            Object.entries(values).forEach(([id, value]) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value;
+            });
+
+            const quizTitle = document.getElementById('new-quiz-title');
+            if (quizTitle) {
+                quizTitle.innerHTML = currentMode === 'AP'
+                    ? '下次考試 <span class="en">Quiz / Test</span>'
+                    : '需加強範圍 <span class="en">Focus Areas</span>';
+            }
+
+            const reviewValues = [1, 2, 3, 4, 5].map(i => valueOf(`[data-id="review_date_${i}"]`));
+            document.querySelectorAll('#new-review-dates .new-review-chip').forEach((chip, index) => {
+                chip.textContent = reviewValues[index] || '';
+            });
         }
 
         // --- 備份與還原功能 (Full Backup & Restore) ---
@@ -1272,7 +1921,9 @@
             btnElement.disabled = true;
 
             document.fonts.ready.then(() => {
-                const source = document.getElementById('capture-area');
+                const source = currentBookView === 'new'
+                    ? document.getElementById('new-capture-area')
+                    : document.getElementById('capture-area');
                 const clone = source.cloneNode(true);
                 
                 clone.style.position = 'absolute';
@@ -1292,7 +1943,10 @@
                     div.innerText = val;
                     div.className = 'snapshot-text-div'; 
 
-                    if (originalInput.classList.contains('input-month') || originalInput.classList.contains('input-day')) {
+                    if (originalInput.classList.contains('new-date-input')) {
+                        div.classList.add('snapshot-new-date');
+                        div.style.width = '100%';
+                    } else if (originalInput.classList.contains('input-month') || originalInput.classList.contains('input-day')) {
                         div.classList.add('snapshot-date');
                         div.style.width = '100%';
                     } else if (originalInput.classList.contains('input-weekday')) {
@@ -1339,7 +1993,8 @@
                 }).then(canvas => {
                     const link = document.createElement('a');
                     const dateStr = new Date().toLocaleDateString('zh-TW').replace(/\//g, '-');
-                    const prefix = currentMode === 'AP' ? '聯絡簿_AP_' : '聯絡簿_幼兒_';
+                    const versionPrefix = currentBookView === 'new' ? '新版_' : '';
+                    const prefix = currentMode === 'AP' ? `聯絡簿_${versionPrefix}AP_` : `聯絡簿_${versionPrefix}幼兒_`;
                     link.download = `${prefix}${dateStr}.png`;
                     link.href = canvas.toDataURL("image/png");
                     link.click();
